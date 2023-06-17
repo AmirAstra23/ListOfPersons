@@ -29,10 +29,10 @@ public class Main {
         //Получить отсортированный по фамилии список потенциально работоспособных людей с высшим образованием
         // в выборке (т.е. людей с высшим образованием от 18 до 60 лет для женщин и до 65 лет для мужчин).
         List<String> sortedListFamiliesOfPerson = persons.stream()
-                .filter(person -> ((person.getAge() > 18 & person
-                        .getAge() < 60) & person.getSex().equals(Sex.WOMAN))
+                .filter(person -> ((person.getAge() >= 18 & person
+                        .getAge() <= 60) & person.getSex().equals(Sex.WOMAN))
                         | ((person.getSex().equals(Sex.MAN)) &
-                        (person.getAge() > 18 & person.getAge() < 65)))
+                        (person.getAge() >= 18 & person.getAge() <= 65)))
                 .filter(person -> person.getEducation().equals(Education.HIGHER))
                 .sorted(Comparator.comparing(Person::getFamily))
                 .map(Person::getFamily)
