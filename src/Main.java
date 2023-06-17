@@ -23,25 +23,23 @@ public class Main {
         //Получить список фамилий призывников (т.е. мужчин от 18 и до 27 лет).
         List<String> listFamilies = persons.stream()
                 .filter(person -> person.getSex().equals(Sex.MAN))
-                .filter(person -> person.getAge() >= 18 && person.getAge() <= 27)
+                .filter(person -> person.getAge() >= 18 & person.getAge() <= 27)
                 .map(Person::getFamily).map(String::new).collect(Collectors.toList());
 
         //Получить отсортированный по фамилии список потенциально работоспособных людей с высшим образованием
         // в выборке (т.е. людей с высшим образованием от 18 до 60 лет для женщин и до 65 лет для мужчин).
-        List<String> sortedListFamiliesOfWoman = persons.stream()
-                .filter(person -> person.getSex().equals(Sex.WOMAN))
-                .filter(person -> person.getAge() >= 18 && person.getAge() <= 60)
-                .map(Person::getFamily).map(String::new).collect(Collectors.toList());
+        List<String> sortedListFamiliesOfPerson = persons.stream()
+                .filter(person -> ((person.getAge() > 18 & person
+                        .getAge() < 60) & person.getSex().equals(Sex.WOMAN))
+                        | ((person.getSex().equals(Sex.MAN)) &
+                        (person.getAge() > 18 & person.getAge() < 65)))
+                .filter(person -> person.getEducation().equals(Education.HIGHER))
+                .sorted(Comparator.comparing(Person::getFamily))
+                .map(Person::getFamily)
+                .map(String::new).collect(Collectors.toList());
 
-        List<String> sortedListFamiliesOfMan = persons.stream()
-                .filter(person -> person.getSex().equals(Sex.MAN))
-                .filter(person -> person.getAge() >= 18 && person.getAge() <= 60)
-                .map(Person::getFamily).map(String::new).collect(Collectors.toList());
-
-//Для удобного просмотра вывода результата раскомментируйте коды ниже по очереди
-        System.out.println(youngMan);
+        //System.out.println(youngMan);
         //System.out.println(listFamilies);
-        //System.out.println(sortedListFamiliesOfWoman);
-        //System.out.println(sortedListFamiliesOfMan);
+        //System.out.println(sortedListFamiliesOfPerson);
     }
 }
